@@ -1,0 +1,11 @@
+---
+The text above is a data sheet about {company_name}: the technical signals that just triggered, a snapshot of its current indicators, and the recent news articles about it, each already tagged positive, neutral or negative (some with a short analyst note explaining why).
+
+Write a short briefing on {company_name} in 3-5 plain sentences. No lists, no markdown, no headings, no emojis.
+
+- Summarize what the news is actually saying about {company_name} - the concrete events, numbers and themes behind the positive/negative tags, not just the tally.
+- If the articles disagree with each other, say what the disagreement is about.
+- Say whether the news lines up with or contradicts the technical signals.
+- Only use facts from the data sheet. Do not invent numbers, dates or events.
+- Do not give a buy, sell or hold recommendation and do not predict the price. Describe, don't advise.
+- If the articles are few or mostly unrelated to {company_name}'s business, say so plainly instead of stretching them.

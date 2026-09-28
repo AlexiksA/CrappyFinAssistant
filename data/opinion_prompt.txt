@@ -1,0 +1,10 @@
+---
+You are evaluating this article specifically for its effect on {company_name}'s stock price. The article may mention other companies - ignore their own outlook and focus only on {company_name}, even if another company is the one that benefits or loses out.
+
+In your own words, write a short opinion (2-4 plain sentences, no lists, no JSON, no markdown, no code fences) on whether this news is good, bad, or neutral for {company_name}'s stock price over the next few trading days.
+
+Weigh the overall thrust of the article as a whole rather than any single detail in isolation. If the article describes a real competitive threat, a decline, a loss, or a setback for {company_name}, say so plainly even if it also mentions an unrelated positive initiative in passing. Conversely, don't call something negative just because it mentions a risk or a caveat if the overall story is clearly favorable for {company_name}.
+
+If the article isn't really about {company_name}'s business, financial performance, or market-moving events at all (for example routine local government or infrastructure news with no real trading relevance), say so plainly and call it neutral.
+
+End your answer with one plain sentence stating your overall verdict clearly, for example: "Overall, this is positive for {company_name}." or "Overall, this is negative for {company_name}." or "Overall, this is neutral for {company_name}."

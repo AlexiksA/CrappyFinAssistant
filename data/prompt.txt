@@ -1,0 +1,13 @@
+---
+The text above is a news article. Classify its likely near-term (1-5 trading day) impact on {company_name}'s stock price specifically. The article may mention other companies - ignore their outlook and classify only the impact on {company_name}.
+
+Respond with exactly one JSON object and nothing else. No explanation, no markdown, no code fences, no text before or after the JSON.
+
+{{"sentiment": "bullish" | "bearish" | "neutral", "confidence": <float 0.0-1.0>, "reason": "<one short clause, max 15 words>"}}
+
+Rules:
+- "bullish" only if the article describes something that plausibly raises the stock price (strong earnings, raised guidance, upgrades, buybacks, favorable regulatory or legal news, positive product/contract news).
+- "bearish" only if it plausibly lowers the stock price (missed earnings, cut guidance, downgrades, lawsuits, layoffs, negative regulatory or legal news, executive departures under a cloud).
+- "neutral" if the article is unrelated to near-term price action, purely informational (e.g. routine index/ETF mentions, generic "is X a buy?" listicles), or the signal is genuinely mixed.
+- If the article text is missing, broken, or clearly not about {company_name}'s business or financial performance, respond with {{"sentiment": "neutral", "confidence": 0.0, "reason": "not applicable"}}.
+- "confidence" reflects how directly and strongly the article's content supports the sentiment label, not how sure you are about phrasing.
