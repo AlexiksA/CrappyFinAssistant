@@ -1,0 +1,37 @@
+# CrappyFinAssist - full pipeline:
+#   portfolio (Drive) -> prices/technicals -> news discovery -> sentiment -> alerts + Telegram
+# Hybrid FinBERT+LLM sentiment when Ollama is reachable, FinBERT alone otherwise
+# (pipeline.py decides at the start of every run).
+#
+# Install (appends - keeps anything already in your crontab):
+#   (crontab -l 2>/dev/null; cat /home/user/ai_harness/final_cron_job) | crontab -
+# Check:
+#   crontab -l
+# Remove:
+#   crontab -l | grep -v 'ai_harness/pipeline.py' | crontab -
+# Run once by hand, exactly as cron would, without sending anything:
+#   cd /home/user/ai_harness && env -i HOME="$HOME" PATH=/usr/bin:/bin ./venv/bin/python3 pipeline.py --no-send
+#
+# Schedule - Europe/Bucharest (the system timezone), weekdays only:
+#   08:00  overnight news, before any of your markets open
+#   23:30  after the Frankfurt (23:00) and US (22:00-23:00, DST-dependent) closes
+# Both times fall outside trading hours on purpose: yfinance's daily bars are then
+# complete. A run mid-session would judge signals on a half-finished candle, and
+# since the alert engine fires on *changes*, a signal flickering intraday would
+# alert, clear, and alert again.
+#
+# What each part of the command guards against:
+#   cd /home/user/ai_harness   every project path is relative (pipeline.py also chdirs itself)
+#   mkdir -p logs              the redirect below needs the folder to exist
+#   HARNESS_HEADLESS=1         no browser windows popping up; cron has no display anyway
+#   HF_HUB_OFFLINE=1           FinBERT loads from the local cache - a Hugging Face outage can't stop a run
+#   timeout --kill-after=5m 2h a hung page load / network call is killed instead of blocking later runs
+#   ./venv/bin/python3         the project venv, no shell activation needed
+#   >> logs/cron.log 2>&1      only catches crashes before logging starts; the real log is
+#                              logs/pipeline.log (auto-rotated, 5 x 5 MB)
+# Also inside pipeline.py: a lock so two runs never overlap, per-stage isolation so one
+# broken phase doesn't stop the others, no interactive Drive login under cron, and a
+# Telegram warning (max once per 6h) when a stage fails.
+
+0 8 * * 1-5 cd /home/user/ai_harness && mkdir -p logs && HARNESS_HEADLESS=1 HF_HUB_OFFLINE=1 timeout --kill-after=5m 2h ./venv/bin/python3 pipeline.py >> logs/cron.log 2>&1
+30 23 * * 1-5 cd /home/user/ai_harness && mkdir -p logs && HARNESS_HEADLESS=1 HF_HUB_OFFLINE=1 timeout --kill-after=5m 2h ./venv/bin/python3 pipeline.py >> logs/cron.log 2>&1
